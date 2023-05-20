@@ -39,9 +39,9 @@ def show_score(choice, color, font, size):
 
     score_surface = score_font.render('Score : ' + str(score), True,color)
 
-    score_rect = score_surface.get_refct()
+    score_rect = score_surface.get_rect()
 
-    game_window.bilt(score_surface, score_rect)
+    game_window.blit(score_surface, score_rect)
 
 
 def game_over():
@@ -77,7 +77,7 @@ while True:
             elif event.key == pygame.K_RIGHT:
                 change_to = 'RIGHT'
 
-    if change_to == 'UP' and direction != 'Down':
+    if change_to == 'UP' and direction != 'DOWN':
         direction = 'UP'
     elif change_to == 'DOWN' and direction != 'UP':
         direction = 'DOWN'
@@ -97,7 +97,7 @@ while True:
         snake_position[0] += 10
 
     snake_body.insert(0, list(snake_position))
-    if snake_position[0] == fruit_position[0] and snake_position[1] == fruit_position[1]:
+    if (snake_position[0]-5 <= fruit_position[0] <= snake_position[0]+5) and (snake_position[1]-5 <= fruit_position[1] <= snake_position[1]+5):
         score += 10
         fruit_spawn = False
     else:
