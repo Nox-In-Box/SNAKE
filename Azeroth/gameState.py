@@ -18,7 +18,7 @@ class GameState():
         if not self.alive:
             return -100
 
-        reward = -1
+        reward = -.01
         self.direction = newDirection
 
         if self.direction == 0:
