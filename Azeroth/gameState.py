@@ -54,7 +54,9 @@ class GameState():
                 elif self.direction == 3:
                     part[0] -= 1
 
-        if self.body[0][0] > self.width or self.body[0][0] < 0  or self.body[0][1] > self.height or self.body[0][1] < 0:
+        #bodySet = set(self.body[1:])
+        
+        if self.body[0][0] > self.width or self.body[0][0] < 0  or self.body[0][1] > self.height or self.body[0][1] < 0 or self.position in self.body[1:]:
             self.alive = False
             return -100
         return reward 
