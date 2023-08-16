@@ -5,7 +5,7 @@ import math
 #learning rate = lr - is a hyper parameter
 lr = 1e-1
 
-epochs = 50
+epochs = 10
 
 model = models.Agent()
 
@@ -19,7 +19,7 @@ for i in range (epochs):
 
     turnNumber = 0
     rewardTotal = 0
-    while env.alive and turnNumber <= 150:
+    while env.alive and turnNumber <= 250:
         #if input vals is changed must also be changed in SnakeAITest
         inputVals = [env.position[0], env.position[1], env.fruit_position[0], env.fruit_position[1], env.width, env.height]
 
@@ -47,7 +47,7 @@ for i in range (epochs):
     
         rewardTotal += env.update(newDirection)
         distToFruit = math.dist(env.position, env.fruit_position)
-        loss = -m.log_prob(action)*distToFruit
+        loss = -m.log_prob(action)*rewardTotal
         loss.backward()
         optim.step()
         turnNumber += 1
