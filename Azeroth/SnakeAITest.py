@@ -4,8 +4,8 @@ import random
 import torch
 
 model = torch.load('./myModel.pth')
-
-snake_speed = 15
+model.eval()
+snake_speed = 1
 
 window_x = 720 
 window_y = 720
@@ -66,19 +66,42 @@ def game_over():
 
     quit()
 
-
+currentDirection = 1
 while True:
+    #goes in input vals ----> x of snake head, y of snake head, x of fruit_position, y of fruit_position, height, width
+    inputVals = [snake_position[0], snake_position[1], fruit_position[0], fruit_position[1], window_y, window_x]
 
-    for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                change_to = 'UP'
-            elif event.key == pygame.K_DOWN:
-                change_to = 'DOWN'
-            elif event.key == pygame.K_LEFT:
-                change_to = 'LEFT'
-            elif event.key == pygame.K_RIGHT:
-                change_to = 'RIGHT'
+    inputTensor = torch.FloatTensor(inputVals)
+
+    probs = model(inputTensor)
+    m = torch.distributions.Categorical(probs)
+    action = (int(m.sample().item()))
+    print(action)
+    if action == 0:
+        print("going left")
+        newDirection = currentDirection -1
+        print(newDirection)
+        if newDirection == 0 and newDirection - 1 <= 0:
+            newDirection = 3
+
+    elif action ==1:
+        newDirection = currentDirection
+    
+    elif action == 2:
+        newDirection = currentDirection + 1 
+        if newDirection > 3:
+            newDirection = 0
+    else:
+        print("you done wrong")
+
+    if newDirection == 0:
+        change_to = 'UP'
+    elif newDirection == 1:
+        change_to = 'RIGHT'
+    elif newDirection== 2:
+        change_to = 'DOWN'
+    elif newDirection == 3:
+        change_to = 'LEFT'
 
     if change_to == 'UP' and direction != 'DOWN':
         direction = 'UP'
@@ -98,6 +121,8 @@ while True:
         snake_position[0] -= 10
     elif direction == 'RIGHT':
         snake_position[0] += 10
+    
+    print(change_to)
 
     snake_body.insert(0, list(snake_position))
     if (snake_position[0]-5 <= fruit_position[0] <= snake_position[0]+5) and (snake_position[1]-5 <= fruit_position[1] <= snake_position[1]+5):
@@ -142,5 +167,4 @@ while True:
 
 
     
-
 
