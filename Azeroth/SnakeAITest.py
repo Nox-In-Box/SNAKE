@@ -5,7 +5,9 @@ import torch
 
 model = torch.load('./myModel.pth')
 model.eval()
-snake_speed = 1
+
+snake_speed = 15
+
 
 window_x = 720 
 window_y = 720
@@ -73,6 +75,7 @@ while True:
 
     inputTensor = torch.FloatTensor(inputVals)
 
+
     probs = model(inputTensor)
     m = torch.distributions.Categorical(probs)
     action = (int(m.sample().item()))
@@ -93,6 +96,7 @@ while True:
             newDirection = 0
     else:
         print("you done wrong")
+
 
     if newDirection == 0:
         change_to = 'UP'
