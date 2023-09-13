@@ -5,7 +5,9 @@ import torch
 
 model = torch.load('./myModel.pth')
 model.eval()
+
 snake_speed = 15
+
 
 window_x = 720 
 window_y = 720
@@ -73,12 +75,16 @@ while True:
 
     inputTensor = torch.FloatTensor(inputVals)
 
+
     probs = model(inputTensor)
     m = torch.distributions.Categorical(probs)
-    action = m.sample()
+    action = (int(m.sample().item()))
+    print(action)
     if action == 0:
-        newDirection = currentDirection - 1
-        if newDirection < 0:
+        print("going left")
+        newDirection = currentDirection -1
+        print(newDirection)
+        if newDirection == 0 and newDirection - 1 <= 0:
             newDirection = 3
 
     elif action ==1:
@@ -90,6 +96,7 @@ while True:
             newDirection = 0
     else:
         print("you done wrong")
+
 
     if newDirection == 0:
         change_to = 'UP'
@@ -118,6 +125,8 @@ while True:
         snake_position[0] -= 10
     elif direction == 'RIGHT':
         snake_position[0] += 10
+    
+    print(change_to)
 
     snake_body.insert(0, list(snake_position))
     if (snake_position[0]-5 <= fruit_position[0] <= snake_position[0]+5) and (snake_position[1]-5 <= fruit_position[1] <= snake_position[1]+5):
@@ -162,5 +171,4 @@ while True:
 
 
     
-
 
