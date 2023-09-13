@@ -52,7 +52,7 @@ for i in range (epochs):
         rewardTotal += env.update(newDirection)
         distToFruit = math.dist(env.position, env.fruit_position)
 
-        loss = -m.log_prob(action)*distToFruit*rewardTotal
+        loss = -m.log_prob(action)*distToFruit
        # print(loss.item())
 
         loss.backward()

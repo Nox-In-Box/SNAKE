@@ -6,7 +6,7 @@ model = torch.load('./myModel.pth')
 model.eval()
 
 env = GameState()
-delayTime = 0
+delayTime = 1
 
 while env.alive:
     inputVals = [env.position[0], env.position[1], env.fruit_position[0], env.fruit_position[1], env.width, env.height]
@@ -36,4 +36,5 @@ while env.alive:
     image = cv2.resize(image, (720, 720))
 
     cv2.imshow("Snake Window", image)
-    cv2.waitKey(delayTime)
+    if cv2.waitKey(delayTime) == ord('q'):
+        
