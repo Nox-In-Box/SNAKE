@@ -1,5 +1,6 @@
 import torch
 import random
+import numpy as np
 
 class GameState():
     def __init__(self):
@@ -13,6 +14,12 @@ class GameState():
                     random.randint(1, self.height) )
         self.points = 0
         
+    def getImage(self):
+        image = np.zeros((self.width, self.height))
+        image[self.fruit_position[0]][self.fruit_position[1]] = 256
+        for part in self.body:
+            image[part[0]][part[1]] = 128
+        return image
 
     def update(self, newDirection):
         #if you aren't alive you get -100 reward
